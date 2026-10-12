@@ -1,0 +1,1272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Charles Vernier – Nano-optics of silver and gold nanoparticles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F5F6F9; --surface:#FFFFFF; --surface2:#ECEFF5; --ink:#14213D; --muted:#566079; --line:#D6DCE6;
+  --gold:#C7961A; --gold-ink:#7A5704; --silver:#8791A5; --teal:#16707C; --rose:#B3364A; --blue:#2D55D6;
+  --focus:#2D55D6; --ph:rgba(199,150,26,.22);
+  --font-ui:'Instrument Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --font-text:'Source Serif 4',Georgia,'Times New Roman',serif;
+  --spec-stops:#7a3fd1,#2d55d6,#16a6b8,#3bb273,#e0c43a,#e8892b,#d1402f;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1322; --surface:#151C31; --surface2:#1C2540; --ink:#E9EDF7; --muted:#9BA5BD; --line:#2A3453;
+    --gold:#E3B341; --gold-ink:#E3B341; --silver:#AEB7CA; --teal:#4FC1CF; --rose:#F08394; --blue:#7C9BFF;
+    --focus:#8EA8FF; --ph:rgba(227,179,65,.2); color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1322; --surface:#151C31; --surface2:#1C2540; --ink:#E9EDF7; --muted:#9BA5BD; --line:#2A3453;
+  --gold:#E3B341; --gold-ink:#E3B341; --silver:#AEB7CA; --teal:#4FC1CF; --rose:#F08394; --blue:#7C9BFF;
+  --focus:#8EA8FF; --ph:rgba(227,179,65,.2); color-scheme:dark;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-text);font-size:17px;line-height:1.62;-webkit-text-size-adjust:100%}
+a{color:var(--ink);text-decoration-color:var(--gold);text-underline-offset:3px}
+a:hover{color:var(--gold-ink)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:3px}
+
+/* ---------- layout ---------- */
+.app{display:grid;grid-template-columns:272px minmax(0,1fr);min-height:100vh}
+.rail-wrap{position:sticky;top:env(safe-area-inset-top,0px);align-self:start;height:100vh;max-height:100vh}
+.rail{height:100%;display:flex;flex-direction:column;padding:34px 0 22px 26px;overflow-y:auto}
+.strip{position:absolute;top:0;bottom:0;right:0;width:4px;background:linear-gradient(to bottom,var(--spec-stops))}
+.tabs{display:flex;flex-direction:column}
+.tab{font:600 16px/1.3 var(--font-ui);text-align:left;padding:13px 18px 13px 14px;margin:0;border:0;border-left:3px solid transparent;background:none;color:var(--muted);cursor:pointer;width:100%}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--ink);border-left-color:var(--gold);background:var(--surface)}
+.gap{height:1px;background:var(--line);margin:12px 18px 12px 14px}
+.theme-btn{margin-top:auto;align-self:flex-start;font:500 13px var(--font-ui);color:var(--muted);background:none;border:1px solid var(--line);border-radius:5px;padding:7px 11px;cursor:pointer}
+.theme-btn:hover{color:var(--ink);border-color:var(--muted)}
+main{min-width:0}
+.panel{padding:46px clamp(20px,4.2vw,60px) 90px;max-width:1080px}
+.panel[hidden]{display:none}
+
+/* ---------- type ---------- */
+h1{font:600 clamp(34px,5vw,56px)/1.05 var(--font-ui);letter-spacing:-.025em;margin:0 0 14px}
+h2{font:600 24px/1.25 var(--font-ui);letter-spacing:-.01em;margin:52px 0 12px}
+h3{font:600 17px/1.3 var(--font-ui);margin:0 0 6px}
+p{margin:0 0 1em;max-width:68ch}
+.lede{font-size:20px;line-height:1.55;max-width:62ch;color:var(--ink)}
+.sub{font:500 17px var(--font-ui);color:var(--muted);margin:0 0 24px}
+.small{font-size:14.5px;color:var(--muted);line-height:1.5}
+.ph{background:var(--ph);border-radius:3px;padding:0 4px}
+sub,sup{line-height:0}
+ul.plain,ol.plain{padding-left:1.2em;margin:0 0 1em;max-width:68ch}
+ul.plain li,ol.plain li{margin-bottom:.35em}
+
+/* ---------- lab (interactive) ---------- */
+.lab{display:grid;grid-template-columns:minmax(250px,310px) minmax(0,1fr);gap:30px;margin:26px 0 8px;align-items:start}
+.controls{display:flex;flex-direction:column;gap:16px}
+.ctl label,.field label{display:flex;justify-content:space-between;gap:10px;font:500 14px var(--font-ui);color:var(--muted);margin-bottom:5px}
+.ctl output{font-variant-numeric:tabular-nums;color:var(--ink);font-weight:600}
+input[type=range]{width:100%;accent-color:var(--gold);margin:0}
+select,input[type=number],input[type=text]{width:100%;font:500 15px var(--font-ui);color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:5px;padding:8px 10px}
+select:focus-visible,input:focus-visible{outline:3px solid var(--focus);outline-offset:1px}
+.check{display:flex;gap:9px;align-items:center;font:500 14.5px var(--font-ui);color:var(--ink)}
+.check input{accent-color:var(--gold);width:17px;height:17px;margin:0}
+.btn{font:600 14.5px var(--font-ui);color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:5px;padding:9px 14px;cursor:pointer}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+.readouts{display:grid;grid-template-columns:1fr 1fr;gap:12px 18px;padding-top:14px;border-top:1px solid var(--line)}
+.ro .v{font:600 22px/1.15 var(--font-ui);font-variant-numeric:tabular-nums}
+.ro .l{font:400 13px var(--font-ui);color:var(--muted)}
+.viz{display:flex;flex-direction:column;gap:18px;min-width:0}
+canvas.chart{width:100%;height:340px;display:block;background:var(--surface);border:1px solid var(--line);border-radius:6px;touch-action:pan-y}
+canvas.chart.short{height:260px}
+.cap{font:400 13.5px/1.45 var(--font-ui);color:var(--muted);margin:-8px 0 0}
+.note{border-left:3px solid var(--gold);padding:2px 0 2px 16px;margin:22px 0;max-width:68ch;font-size:16px}
+.msg{font:500 14px var(--font-ui);color:var(--rose);min-height:1.2em}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:30px}
+.explore{margin:30px 0 0;padding:0;list-style:none;max-width:760px}
+.explore li{display:grid;grid-template-columns:minmax(210px,260px) 1fr;gap:18px;padding:14px 0;border-top:1px solid var(--line)}
+.explore li:last-child{border-bottom:1px solid var(--line)}
+.explore a{font:600 17px var(--font-ui)}
+.explore span{color:var(--muted);font-size:16px}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:40px;align-items:start}
+.widget{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px}
+.widget canvas.chart{border:0;height:290px;background:transparent}
+.widget h3{margin-bottom:10px}
+
+/* ---------- recipes ---------- */
+details.recipe{border-top:1px solid var(--line)}
+details.recipe:last-of-type{border-bottom:1px solid var(--line)}
+details.recipe summary{cursor:pointer;list-style:none;padding:18px 0;font:600 19px var(--font-ui);display:flex;justify-content:space-between;align-items:baseline;gap:18px}
+details.recipe summary::-webkit-details-marker{display:none}
+details.recipe summary .meta{font:400 14px var(--font-ui);color:var(--muted);margin-left:auto;text-align:right}
+details.recipe summary::after{content:"+";font:500 22px var(--font-ui);color:var(--gold-ink);width:20px;text-align:center}
+details.recipe[open] summary::after{content:"\2212"}
+.recipe-body{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:28px;padding:2px 0 22px}
+.recipe-body h3{margin-top:0}
+.lspr-row{display:grid;grid-template-columns:minmax(150px,230px) 1fr;gap:16px;align-items:center;margin:11px 0;font:500 14.5px var(--font-ui)}
+.track{position:relative;height:22px;border-radius:3px;border:1px solid var(--line)}
+.track .rng{position:absolute;top:-4px;bottom:-4px;border:2px solid var(--ink);border-radius:4px;background:rgba(255,255,255,.18)}
+.axis-lbl{display:grid;grid-template-columns:minmax(150px,230px) 1fr;gap:16px;font:400 12.5px var(--font-ui);color:var(--muted)}
+.axis-lbl div{display:flex;justify-content:space-between}
+
+/* ---------- results / tables ---------- */
+.calc{display:grid;grid-template-columns:minmax(250px,330px) minmax(0,1fr);gap:30px;margin:18px 0 10px;align-items:start}
+.form{display:flex;flex-direction:column;gap:13px}
+.field{display:block}
+.results{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px 20px}
+.results .row{display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid var(--line);font:500 15px var(--font-ui)}
+.results .row:last-child{border-bottom:0}
+.results .row b{font-variant-numeric:tabular-nums;text-align:right}
+.verdict{font:600 16px/1.4 var(--font-ui);padding:12px 14px;border-radius:5px;margin-top:12px;background:var(--surface2)}
+table.tbl{border-collapse:collapse;width:100%;max-width:820px;font:500 15px var(--font-ui)}
+table.tbl th,table.tbl td{text-align:left;padding:11px 12px 11px 0;border-bottom:1px solid var(--line);vertical-align:top}
+table.tbl th{font-weight:600;color:var(--muted);font-size:13.5px}
+.exo{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px;max-width:760px}
+.exo .q{font-size:18px;margin-bottom:14px}
+.exo .ans{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.exo .ans input{width:170px}
+.fb{font:600 15px var(--font-ui);margin-top:12px;min-height:1.3em}
+.sol{font:400 15.5px var(--font-text);color:var(--muted);margin-top:10px}
+footer.foot{margin-top:70px;padding-top:18px;border-top:1px solid var(--line);font:400 13.5px/1.5 var(--font-ui);color:var(--muted);max-width:68ch}
+
+/* ---------- responsive ---------- */
+@media (max-width:980px){
+  .lab,.calc,.hero,.two,.recipe-body{grid-template-columns:minmax(0,1fr)}
+  .explore li{grid-template-columns:1fr;gap:2px}
+}
+@media (max-width:860px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .rail-wrap{position:sticky;height:auto;max-height:none;background:var(--bg);z-index:20;border-bottom:1px solid var(--line)}
+  .rail{flex-direction:row;padding:0 0 4px;overflow-x:auto;overflow-y:hidden;height:auto;align-items:stretch}
+  .tabs{flex-direction:row;flex:none}
+  .tab{white-space:nowrap;width:auto;border-left:0;border-bottom:3px solid transparent;padding:14px 14px 11px}
+  .tab[aria-selected="true"]{border-bottom-color:var(--gold);background:none}
+  .gap{width:1px;height:auto;margin:10px 4px}
+  .strip{top:auto;left:0;right:0;bottom:0;width:auto;height:3px;background:linear-gradient(to right,var(--spec-stops))}
+  .theme-btn{margin:8px 12px 8px 8px;align-self:center;white-space:nowrap;flex:none}
+  .panel{padding-top:30px}
+  .readouts{grid-template-columns:1fr 1fr}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="rail-wrap">
+    <div class="rail">
+      <nav class="tabs" id="tabs" role="tablist" aria-label="Sections" aria-orientation="vertical">
+        <button class="tab" role="tab" id="tab-home" data-tab="home" aria-controls="home">Charles Vernier</button>
+        <div class="gap" role="presentation"></div>
+        <button class="tab" role="tab" id="tab-phonons" data-tab="phonons" aria-controls="phonons">Confined phonons</button>
+        <button class="tab" role="tab" id="tab-plasmons" data-tab="plasmons" aria-controls="plasmons">Confined surface plasmons</button>
+        <button class="tab" role="tab" id="tab-synthesis" data-tab="synthesis" aria-controls="synthesis">Silver and gold NPs synthesis</button>
+        <div class="gap" role="presentation"></div>
+        <button class="tab" role="tab" id="tab-concentration" data-tab="concentration" aria-controls="concentration">Concentration calculator</button>
+        <button class="tab" role="tab" id="tab-flocculation" data-tab="flocculation" aria-controls="flocculation">Flocculation calculator</button>
+        <div class="gap" role="presentation"></div>
+        <button class="tab" role="tab" id="tab-teaching" data-tab="teaching" aria-controls="teaching">Teaching</button>
+      </nav>
+      <button class="theme-btn" id="theme-btn" type="button" aria-label="Change colour theme">Theme: auto</button>
+    </div>
+    <div class="strip" aria-hidden="true"></div>
+  </aside>
+
+  <main id="main">
+    <noscript><div class="panel"><p>This site uses JavaScript for its interactive models. Please enable it.</p></div></noscript>
+
+    <!-- ================= HOME ================= -->
+    <section class="panel" id="home" role="tabpanel" aria-labelledby="tab-home">
+      <div class="hero">
+        <div>
+          <h1>Charles Vernier</h1>
+          <p class="sub">Postdoctoral researcher, <span class="ph">[laboratory, institution]</span></p>
+          <p class="lede">I study how metal nanoparticles confine light and sound. Silver and gold particles, from a few to a few hundred nanometres across, concentrate optical fields through surface plasmons and vibrate at gigahertz to terahertz frequencies.</p>
+          <p>I make the particles, measure them, and model them with finite-difference time-domain (FDTD) simulations. This site lets you play with simplified versions of those models and use the calculators I use at the bench.</p>
+        </div>
+        <div class="widget">
+          <h3>Tune a gold nanorod</h3>
+          <div class="ctl" data-id="hr-ar" data-label="Aspect ratio (length / width)" data-min="1" data-max="5" data-step="0.05" data-value="3" data-dec="2"></div>
+          <canvas class="chart" id="hr-chart" role="img" aria-label="Extinction spectrum of a gold nanorod for light polarised along and across its axis"></canvas>
+          <p class="small" style="margin:8px 0 0" id="hr-read"></p>
+          <p class="small" style="margin:6px 0 0">Quasi-static model, gold in water. <a href="#plasmons" data-goto="plasmons">Open the full model</a>.</p>
+        </div>
+      </div>
+
+      <h2>What is on this site</h2>
+      <ul class="explore">
+        <li><a href="#phonons" data-goto="phonons">Confined phonons</a><span>Breathing-mode period and frequency of a nanoparticle from its size and material.</span></li>
+        <li><a href="#plasmons" data-goto="plasmons">Confined surface plasmons</a><span>Resonance spectra of spheres and rods, and a shape explorer for superellipsoids with a ligand shell.</span></li>
+        <li><a href="#synthesis" data-goto="synthesis">Silver and gold NPs synthesis</a><span>Reference recipes, expected resonance positions and a UV–vis size estimator.</span></li>
+        <li><a href="#concentration" data-goto="concentration">Concentration calculator</a><span>Particle concentration from precursor yield or absorbance, and dilutions.</span></li>
+        <li><a href="#flocculation" data-goto="flocculation">Flocculation calculator</a><span>DLVO interaction energy, stability ratio and critical coagulation concentration.</span></li>
+        <li><a href="#teaching" data-goto="teaching">Teaching</a><span>Courses, and practice exercises built on the same formulas.</span></li>
+      </ul>
+
+      <h2>Selected publications</h2>
+      <ol class="plain">
+        <li><span class="ph">[Authors, title, journal, year, DOI]</span></li>
+        <li><span class="ph">[Authors, title, journal, year, DOI]</span></li>
+        <li><span class="ph">[Authors, title, journal, year, DOI]</span></li>
+      </ol>
+      <p class="small">The full list can be imported automatically from ORCID or HAL.</p>
+
+      <h2>Contact</h2>
+      <p><span class="ph">[email address]</span><br>
+      <span class="ph">[ORCID]</span> &nbsp; <span class="ph">[Google Scholar]</span> &nbsp; <span class="ph">[HAL]</span> &nbsp; <span class="ph">[LinkedIn]</span></p>
+
+      <footer class="foot">Draft prototype. Highlighted text in brackets is placeholder content. The models are simplified, for exploration and teaching, and do not replace full electromagnetic or elastic simulations.</footer>
+    </section>
+
+    <!-- ================= PHONONS ================= -->
+    <section class="panel" id="phonons" role="tabpanel" aria-labelledby="tab-phonons" hidden>
+      <h1>Confined phonons</h1>
+      <p class="lede">A nanoparticle is a tiny elastic resonator. Its acoustic vibrations are quantised by its size, so smaller particles ring faster. The simplest one, the breathing mode, makes the whole sphere expand and contract.</p>
+      <p>For a free homogeneous sphere of radius <i>R</i>, the breathing-mode frequency is <i>f</i> = ξ<i>c</i><sub>L</sub> / (2π<i>R</i>), where <i>c</i><sub>L</sub> is the longitudinal sound velocity and ξ is the first root of the Lamb equation tan ξ = 4ξ / (4 − (<i>c</i><sub>L</sub>/<i>c</i><sub>T</sub>)² ξ²). Pump–probe experiments detect this mode as an oscillation of the optical transmission.</p>
+
+      <div class="lab">
+        <div class="controls">
+          <div class="field"><label for="ph-mat">Material</label>
+            <select id="ph-mat">
+              <option value="Au">Gold</option><option value="Ag">Silver</option><option value="Cu">Copper</option><option value="custom">Custom velocities</option>
+            </select></div>
+          <div id="ph-custom" hidden class="two" style="gap:12px">
+            <div class="field"><label for="ph-cL">c<sub>L</sub> (m/s)</label><input type="number" id="ph-cL" value="6420" min="100" step="10"></div>
+            <div class="field"><label for="ph-cT">c<sub>T</sub> (m/s)</label><input type="number" id="ph-cT" value="3040" min="100" step="10"></div>
+          </div>
+          <div class="ctl" data-id="ph-d" data-label="Diameter" data-min="2" data-max="100" data-step="0.5" data-value="10" data-unit="nm" data-dec="1"></div>
+          <div class="msg" id="ph-msg" role="status"></div>
+          <div class="readouts">
+            <div class="ro"><div class="v" id="ph-f">–</div><div class="l">Frequency</div></div>
+            <div class="ro"><div class="v" id="ph-T">–</div><div class="l">Period</div></div>
+            <div class="ro"><div class="v" id="ph-wn">–</div><div class="l">Wavenumber</div></div>
+            <div class="ro"><div class="v" id="ph-xi">–</div><div class="l">Lamb root ξ</div></div>
+          </div>
+        </div>
+        <div class="viz">
+          <canvas class="chart" id="ph-chart" role="img" aria-label="Breathing mode frequency versus nanoparticle diameter for gold, silver and copper"></canvas>
+          <p class="cap">Breathing-mode frequency against diameter (log–log). Hover for values; the dot marks the diameter set on the left.</p>
+          <canvas class="chart short" id="ph-anim" role="img" aria-label="Animation of a breathing nanoparticle"></canvas>
+          <div class="btn-row" style="align-items:center">
+            <button class="btn" id="ph-play" type="button">Pause</button>
+            <span class="small" id="ph-slow"></span>
+          </div>
+        </div>
+      </div>
+
+      <h2>From a measured period to a size</h2>
+      <p>If you measure the oscillation period in a pump–probe trace, the material selected above gives the diameter of the particle.</p>
+      <div class="calc" style="margin-top:12px">
+        <div class="form">
+          <div class="field"><label for="ph-T2">Measured period (ps)</label><input type="number" id="ph-T2" value="3.3" min="0.01" step="0.1"></div>
+        </div>
+        <div class="results"><div class="row"><span>Diameter</span><b id="ph-D2">–</b></div><div class="row"><span>Frequency</span><b id="ph-f2">–</b></div></div>
+      </div>
+
+      <h2>Model and limits</h2>
+      <p>This is the textbook model of a free, isotropic sphere in vacuum, with bulk sound velocities. Real particles are damped by their surroundings (solvent, substrate, ligands), are not perfectly spherical, and gold and silver are elastically anisotropic, which shifts and splits modes. Higher-order modes (quadrupolar, l = 2) are not shown here.</p>
+      <p class="note"><span class="ph">[Add your own results here: measured traces, size dependence, damping in different environments.]</span></p>
+    </section>
+
+    <!-- ================= PLASMONS ================= -->
+    <section class="panel" id="plasmons" role="tabpanel" aria-labelledby="tab-plasmons" hidden>
+      <h1>Confined surface plasmons</h1>
+      <p class="lede">In a metal nanoparticle, the conduction electrons oscillate collectively with the light field. The resulting localized surface plasmon resonance sets the colour of a colloid and concentrates light at the particle surface.</p>
+      <p>Below, the optical response of a spheroid (sphere or rod) is computed in the quasi-static dipole approximation with a Drude permittivity. Change the size, the aspect ratio and the surrounding medium and watch the two resonances, along and across the long axis, move.</p>
+
+      <div class="lab">
+        <div class="controls">
+          <div class="field"><label for="pl-metal">Metal</label><select id="pl-metal"><option value="Au">Gold</option><option value="Ag">Silver</option></select></div>
+          <div class="ctl" data-id="pl-b" data-label="Short semi-axis b" data-min="4" data-max="60" data-step="1" data-value="12" data-unit="nm" data-dec="0"></div>
+          <div class="ctl" data-id="pl-ar" data-label="Aspect ratio a / b" data-min="1" data-max="6" data-step="0.05" data-value="3" data-dec="2"></div>
+          <div class="ctl" data-id="pl-n" data-label="Medium refractive index" data-min="1" data-max="2" data-step="0.01" data-value="1.33" data-dec="2"></div>
+          <div class="field"><label for="pl-q">Quantity</label>
+            <select id="pl-q"><option value="ext">Extinction</option><option value="abs">Absorption</option><option value="sca">Scattering</option></select></div>
+          <label class="check"><input type="checkbox" id="pl-surf" checked> Surface damping (size-dependent)</label>
+          <div class="readouts">
+            <div class="ro"><div class="v" id="pl-pkL">–</div><div class="l">Longitudinal peak</div></div>
+            <div class="ro"><div class="v" id="pl-pkT">–</div><div class="l">Transverse peak</div></div>
+            <div class="ro"><div class="v" id="pl-req">–</div><div class="l">Equivalent-sphere radius</div></div>
+            <div class="ro"><div class="v" id="pl-vol">–</div><div class="l">Particle volume</div></div>
+          </div>
+        </div>
+        <div class="viz">
+          <canvas class="chart" id="pl-chart" role="img" aria-label="Calculated optical spectrum of a spheroidal metal nanoparticle"></canvas>
+          <div class="btn-row">
+            <label class="check"><input type="checkbox" id="pl-showL" checked> Along the long axis</label>
+            <label class="check"><input type="checkbox" id="pl-showT" checked> Across the long axis</label>
+            <label class="check"><input type="checkbox" id="pl-showA"> Random orientation</label>
+          </div>
+          <p class="cap">Cross-section in nm². Quasi-static model: accurate for particles much smaller than the wavelength; larger particles need full Mie or FDTD calculations. The Drude fit ignores interband transitions, so gold below about 500 nm is only qualitative.</p>
+        </div>
+      </div>
+
+      <h2>Shape explorer: superellipsoid with a ligand shell</h2>
+      <p>The particles I simulate are superellipsoids: the exponents <i>n</i> set the shape between a diamond (<i>n</i> = 1), an ellipse (<i>n</i> = 2) and a box (large <i>n</i>). A ligand shell wraps the metal with its own exponents.</p>
+      <div class="btn-row" style="margin:14px 0 4px">
+        <button class="btn" type="button" data-preset="sphere">Sphere</button>
+        <button class="btn" type="button" data-preset="sym">Symmetrical (n = 6, ligand n = 10)</button>
+        <button class="btn" type="button" data-preset="elong">Elongated (n<sub>xy</sub> = 2, n<sub>z</sub> = 12)</button>
+      </div>
+      <div class="lab">
+        <div class="controls">
+          <div class="ctl" data-id="sh-a" data-label="Semi-axis a = b" data-min="5" data-max="60" data-step="1" data-value="20" data-unit="nm" data-dec="0"></div>
+          <div class="ctl" data-id="sh-c" data-label="Semi-axis c (long axis)" data-min="5" data-max="120" data-step="1" data-value="50" data-unit="nm" data-dec="0"></div>
+          <div class="ctl" data-id="sh-nxy" data-label="Exponent n<sub>x</sub> = n<sub>y</sub>" data-min="1" data-max="20" data-step="0.5" data-value="2" data-dec="1"></div>
+          <div class="ctl" data-id="sh-nz" data-label="Exponent n<sub>z</sub>" data-min="1" data-max="20" data-step="0.5" data-value="12" data-dec="1"></div>
+          <div class="ctl" data-id="sh-t" data-label="Ligand thickness" data-min="0" data-max="15" data-step="0.5" data-value="3" data-unit="nm" data-dec="1"></div>
+          <label class="check"><input type="checkbox" id="sh-link" checked> Ligand exponents follow the metal</label>
+          <div class="ctl" data-id="sh-lxy" data-label="Ligand n<sub>x</sub> = n<sub>y</sub>" data-min="1" data-max="20" data-step="0.5" data-value="2" data-dec="1"></div>
+          <div class="ctl" data-id="sh-lz" data-label="Ligand n<sub>z</sub>" data-min="1" data-max="20" data-step="0.5" data-value="12" data-dec="1"></div>
+          <div class="readouts">
+            <div class="ro"><div class="v" id="sh-vol">–</div><div class="l">Metal volume</div></div>
+            <div class="ro"><div class="v" id="sh-req">–</div><div class="l">Equivalent-sphere radius</div></div>
+          </div>
+        </div>
+        <div class="viz">
+          <canvas class="chart" id="sh-canvas" role="img" aria-label="Cross-sections of the superellipsoid particle and its ligand shell"></canvas>
+          <p class="cap">Left: section along the long axis. Right: cross-section through the middle. The spectrum above uses the spheroid approximation (n = 2); for superellipsoids the response comes from FDTD.</p>
+        </div>
+      </div>
+      <p class="note"><span class="ph">[Next step: load your FDTD sweeps here (spectra versus size, gap, ligand thickness or exponent) with the same sliders.]</span></p>
+    </section>
+
+    <!-- ================= SYNTHESIS ================= -->
+    <section class="panel" id="synthesis" role="tabpanel" aria-labelledby="tab-synthesis" hidden>
+      <h1>Silver and gold NPs synthesis</h1>
+      <p class="lede">Colloidal gold and silver particles are made by reducing a metal salt in the presence of a stabiliser. The reducing agent, the stabiliser and the temperature decide the size, the shape and therefore the colour.</p>
+      <p class="note">These are classic literature starting points, shortened for orientation. Replace them with your validated protocols and quantities, and check the original papers before use. <span class="ph">[Your own recipes and photos here]</span></p>
+
+      <h2>Reference recipes</h2>
+      <details class="recipe">
+        <summary>Gold nanospheres, citrate reduction (Turkevich–Frens)<span class="meta">about 12–20 nm, peak near 520 nm</span></summary>
+        <div class="recipe-body">
+          <div><h3>Reagents</h3><ul class="plain"><li>HAuCl<sub>4</sub>, 1 mM in water (20 mL)</li><li>Trisodium citrate, 1 wt% (about 2 mL, 38.8 mM)</li></ul>
+          <h3>Tuning</h3><p class="small">Less citrate gives larger particles, but a broader size distribution.</p></div>
+          <div><h3>Procedure</h3><ol class="plain"><li>Bring the HAuCl<sub>4</sub> solution to a rolling boil under stirring, in clean glassware.</li><li>Add the citrate quickly. The colour goes from pale yellow to grey-blue, then to wine red.</li><li>Keep boiling for about 15 minutes, then cool to room temperature under stirring.</li></ol>
+          <h3>Check</h3><p class="small">UV–vis peak at 518–525 nm. A peak above 530 nm or a purple tint points to aggregation or larger particles.</p></div>
+        </div>
+      </details>
+      <details class="recipe">
+        <summary>Silver nanospheres, citrate reduction (Lee–Meisel)<span class="meta">about 50–100 nm, polydisperse, peak near 420 nm</span></summary>
+        <div class="recipe-body">
+          <div><h3>Reagents</h3><ul class="plain"><li>AgNO<sub>3</sub>, 90 mg in 500 mL water</li><li>Trisodium citrate, 1 wt% (10 mL)</li></ul>
+          <h3>Tuning</h3><p class="small">Strongly polydisperse. For smaller, more uniform particles use a NaBH<sub>4</sub> seed route.</p></div>
+          <div><h3>Procedure</h3><ol class="plain"><li>Bring the silver nitrate solution to a boil under stirring.</li><li>Add the citrate solution and keep boiling for about one hour.</li><li>The suspension turns greenish-grey. Cool under stirring and store in the dark.</li></ol>
+          <h3>Check</h3><p class="small">A broad band around 400–450 nm, often with a shoulder. Silver oxidises: measure soon after synthesis.</p></div>
+        </div>
+      </details>
+      <details class="recipe">
+        <summary>Gold nanorods, seed-mediated growth (CTAB)<span class="meta">aspect ratio 2–5, longitudinal peak 650–900 nm</span></summary>
+        <div class="recipe-body">
+          <div><h3>Reagents</h3><ul class="plain"><li>HAuCl<sub>4</sub>, CTAB, ice-cold NaBH<sub>4</sub> for the seeds</li><li>Growth solution: HAuCl<sub>4</sub>, CTAB, AgNO<sub>3</sub>, ascorbic acid</li></ul>
+          <h3>Tuning</h3><p class="small">The amount of Ag<sup>+</sup> in the growth solution mainly sets the aspect ratio.</p></div>
+          <div><h3>Procedure</h3><ol class="plain"><li>Make small seeds by reducing HAuCl<sub>4</sub> in CTAB with NaBH<sub>4</sub>. Use them after about 30 minutes.</li><li>Prepare the growth solution and add ascorbic acid until it turns colourless.</li><li>Add a small volume of seeds, mix briefly, then leave undisturbed overnight at about 30 °C.</li></ol>
+          <h3>Check</h3><p class="small">Two bands: transverse near 520 nm and longitudinal at 650–900 nm. Purify by centrifugation to remove excess CTAB.</p></div>
+        </div>
+      </details>
+      <details class="recipe">
+        <summary>Silver nanocubes, polyol synthesis (PVP)<span class="meta">edge 40–80 nm, peak 430–490 nm</span></summary>
+        <div class="recipe-body">
+          <div><h3>Reagents</h3><ul class="plain"><li>Ethylene glycol (solvent and reducing agent)</li><li>AgNO<sub>3</sub>, PVP, a trace of chloride or sulphide</li></ul>
+          <h3>Tuning</h3><p class="small">Cube size depends on reaction time and on the amount of silver precursor.</p></div>
+          <div><h3>Procedure</h3><ol class="plain"><li>Heat ethylene glycol to about 150 °C in an oil bath.</li><li>Add the trace additive, then PVP and AgNO<sub>3</sub> solutions in ethylene glycol.</li><li>Follow the colour and the UV–vis spectrum, and stop the reaction by cooling when the target band appears.</li></ol>
+          <h3>Check</h3><p class="small">Sharp peak with a clear shoulder at shorter wavelengths. Confirm shape and edge length by electron microscopy.</p></div>
+        </div>
+      </details>
+
+      <h2>Where should the plasmon peak be?</h2>
+      <p>Typical resonance positions in water, to check a fresh batch against a UV–vis spectrum.</p>
+      <div id="lspr-rows" style="max-width:820px"></div>
+
+      <h2>Gold nanosphere size from UV–vis</h2>
+      <p>For gold spheres of about 5–80 nm, the ratio of the absorbance at the plasmon peak to the absorbance at 450 nm gives an empirical size estimate (after Haiss <i>et al.</i>, Anal. Chem. 2007). Check the original paper for its range of validity.</p>
+      <div class="calc" style="margin-top:12px">
+        <div class="form">
+          <div class="field"><label for="hs-a">Absorbance at the plasmon peak</label><input type="number" id="hs-a" value="0.90" step="0.01" min="0"></div>
+          <div class="field"><label for="hs-b">Absorbance at 450 nm</label><input type="number" id="hs-b" value="0.52" step="0.01" min="0"></div>
+        </div>
+        <div class="results"><div class="row"><span>Ratio A<sub>spr</sub> / A<sub>450</sub></span><b id="hs-r">–</b></div><div class="row"><span>Estimated diameter</span><b id="hs-d">–</b></div><div class="small" id="hs-n" style="margin-top:6px"></div></div>
+      </div>
+    </section>
+
+    <!-- ================= CONCENTRATION ================= -->
+    <section class="panel" id="concentration" role="tabpanel" aria-labelledby="tab-concentration" hidden>
+      <h1>Concentration calculator</h1>
+      <p class="lede">Three ways to get the number of particles in a suspension: from the precursor you reduced, from an absorbance measurement, and from a dilution.</p>
+
+      <h2>From the precursor</h2>
+      <p>Assumes spherical particles of a single size and a known reduction yield.</p>
+      <div class="calc">
+        <div class="form">
+          <div class="field"><label for="ca-metal">Metal</label><select id="ca-metal"><option value="Au">Gold</option><option value="Ag">Silver</option></select></div>
+          <div class="field"><label for="ca-c">Precursor concentration (mM)</label><input type="number" id="ca-c" value="1" min="0" step="any"></div>
+          <div class="field"><label for="ca-v">Precursor volume (mL)</label><input type="number" id="ca-v" value="20" min="0" step="any"></div>
+          <div class="field"><label for="ca-vt">Final volume (mL)</label><input type="number" id="ca-vt" value="22" min="0" step="any"></div>
+          <div class="field"><label for="ca-y">Reduction yield (%)</label><input type="number" id="ca-y" value="100" min="0" max="100" step="any"></div>
+          <div class="field"><label for="ca-d">Mean particle diameter (nm)</label><input type="number" id="ca-d" value="15" min="0.5" step="any"></div>
+        </div>
+        <div>
+          <div class="results">
+            <div class="row"><span>Atoms per particle</span><b id="ca-atoms">–</b></div>
+            <div class="row"><span>Particle concentration</span><b id="ca-nm">–</b></div>
+            <div class="row"><span>Number density</span><b id="ca-pml">–</b></div>
+            <div class="row"><span>Metal mass concentration</span><b id="ca-mass">–</b></div>
+          </div>
+          <div class="btn-row" style="margin-top:12px"><button class="btn" type="button" id="ca-send">Use in the flocculation calculator</button></div>
+          <div class="msg" id="ca-msg" role="status"></div>
+        </div>
+      </div>
+
+      <h2>From the absorbance</h2>
+      <p>Beer–Lambert law: <i>c</i> = <i>A</i> / (ε <i>l</i>), with the extinction coefficient ε of the particles at the wavelength of the measurement.</p>
+      <div class="calc">
+        <div class="form">
+          <div class="field"><label for="cb-A">Absorbance A</label><input type="number" id="cb-A" value="0.50" min="0" step="0.01"></div>
+          <div class="field"><label for="cb-l">Path length (cm)</label><input type="number" id="cb-l" value="1" min="0" step="any"></div>
+          <div class="field"><label for="cb-pre">Typical extinction coefficient at the plasmon peak</label>
+            <select id="cb-pre">
+              <option value="">Enter my own value</option>
+              <option value="1.0e8">Au 10 nm, about 1.0 × 10⁸</option>
+              <option value="3.7e8">Au 15 nm, about 3.7 × 10⁸</option>
+              <option value="9.2e8" selected>Au 20 nm, about 9.2 × 10⁸</option>
+              <option value="3.4e9">Au 30 nm, about 3.4 × 10⁹</option>
+              <option value="8.4e9">Au 40 nm, about 8.4 × 10⁹</option>
+            </select></div>
+          <div class="field"><label for="cb-e">ε (M⁻¹ cm⁻¹)</label><input type="number" id="cb-e" value="920000000" min="0" step="any"></div>
+          <p class="small">Values are approximate and quoted from commercial datasheets. Use the one supplied with your particles, or calibrate your own.</p>
+        </div>
+        <div class="results">
+          <div class="row"><span>Particle concentration</span><b id="cb-nm">–</b></div>
+          <div class="row"><span>Number density</span><b id="cb-pml">–</b></div>
+          <div class="msg" id="cb-msg" role="status"></div>
+        </div>
+      </div>
+
+      <h2>Dilution</h2>
+      <div class="calc">
+        <div class="form">
+          <div class="field"><label for="cc-c1">Stock concentration (nM)</label><input type="number" id="cc-c1" value="10" min="0" step="any"></div>
+          <div class="field"><label for="cc-c2">Target concentration (nM)</label><input type="number" id="cc-c2" value="1" min="0" step="any"></div>
+          <div class="field"><label for="cc-v2">Final volume (mL)</label><input type="number" id="cc-v2" value="3" min="0" step="any"></div>
+        </div>
+        <div class="results">
+          <div class="row"><span>Volume of stock</span><b id="cc-v1">–</b></div>
+          <div class="row"><span>Volume of solvent</span><b id="cc-vs">–</b></div>
+          <div class="row"><span>Dilution factor</span><b id="cc-f">–</b></div>
+          <div class="msg" id="cc-msg" role="status"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FLOCCULATION ================= -->
+    <section class="panel" id="flocculation" role="tabpanel" aria-labelledby="tab-flocculation" hidden>
+      <h1>Flocculation calculator</h1>
+      <p class="lede">A charged colloid stays dispersed as long as electrostatic repulsion keeps particles apart. Salt screens the charge, the barrier collapses and the particles aggregate. This calculator uses DLVO theory for two identical spheres in water at 25 °C.</p>
+
+      <div class="lab">
+        <div class="controls">
+          <div class="ctl" data-id="fl-r" data-label="Particle radius" data-min="2" data-max="100" data-step="0.5" data-value="10" data-unit="nm" data-dec="1"></div>
+          <div class="ctl" data-id="fl-psi" data-label="Surface potential (magnitude)" data-min="5" data-max="100" data-step="1" data-value="60" data-unit="mV" data-dec="0"></div>
+          <div class="ctl" data-id="fl-A" data-label="Hamaker constant" data-min="0.5" data-max="6" data-step="0.1" data-value="2" data-unit="× 10⁻¹⁹ J" data-dec="1"></div>
+          <div class="field"><label for="fl-salt">Salt</label>
+            <select id="fl-salt">
+              <option value="NaCl">NaCl (1:1)</option><option value="CaCl2">CaCl₂ (2:1)</option><option value="MgSO4">MgSO₄ (2:2)</option><option value="AlCl3">AlCl₃ (3:1)</option>
+            </select></div>
+          <div class="ctl" data-id="fl-c" data-label="Salt concentration" data-min="-2" data-max="3" data-step="0.02" data-value="0" data-unit="mM" data-fmt="pow10"></div>
+          <div class="field"><label for="fl-nm">Particle concentration (nM)</label><input type="number" id="fl-nm" value="1" min="0.000001" step="any"></div>
+          <div class="readouts">
+            <div class="ro"><div class="v" id="fl-ld">–</div><div class="l">Debye length</div></div>
+            <div class="ro"><div class="v" id="fl-bar">–</div><div class="l">Energy barrier</div></div>
+            <div class="ro"><div class="v" id="fl-W">–</div><div class="l">Stability ratio W</div></div>
+            <div class="ro"><div class="v" id="fl-t">–</div><div class="l">Aggregation half-time</div></div>
+          </div>
+          <div class="verdict" id="fl-verdict" role="status"></div>
+        </div>
+        <div class="viz">
+          <canvas class="chart" id="fl-e" role="img" aria-label="DLVO interaction energy versus surface separation"></canvas>
+          <p class="cap">Interaction energy between two particles in units of k<sub>B</sub>T against the gap between their surfaces. A positive hump is the barrier that keeps the colloid stable.</p>
+          <canvas class="chart" id="fl-w" role="img" aria-label="Stability ratio versus salt concentration"></canvas>
+          <p class="cap" id="fl-ccc">Stability ratio against salt concentration (log–log, capped at 10¹²). The dashed line marks the estimated critical coagulation concentration.</p>
+        </div>
+      </div>
+
+      <h2>Assumptions</h2>
+      <ul class="plain">
+        <li>Two identical spheres, constant surface potential, Derjaguin approximation for the double-layer repulsion, and the exact van der Waals expression for two spheres (no retardation).</li>
+        <li>No steric, hydration or specific-adsorption forces. Ligand-coated particles can be much more stable than DLVO predicts.</li>
+        <li>The surface potential does not change with salt. In reality the potential falls as counter-ions adsorb, especially for multivalent salts.</li>
+        <li>The stability ratio W is the Fuchs integral, with the gap cut off at 0.3 nm. The half-time is the Smoluchowski fast-aggregation time 3η / (4 k<sub>B</sub>T n<sub>0</sub>) multiplied by W, with η = 0.89 mPa·s.</li>
+        <li>The critical coagulation concentration is taken where W falls below 10, an operational definition.</li>
+      </ul>
+      <p class="note">Defaults are illustrative. Adjust the surface potential and Hamaker constant to your system, for example from a zeta-potential measurement.</p>
+    </section>
+
+    <!-- ================= TEACHING ================= -->
+    <section class="panel" id="teaching" role="tabpanel" aria-labelledby="tab-teaching" hidden>
+      <h1>Teaching</h1>
+      <p class="lede"><span class="ph">[One or two sentences on your teaching: topics, levels, approach.]</span></p>
+
+      <h2>Courses</h2>
+      <table class="tbl">
+        <thead><tr><th>Course</th><th>Level</th><th>Role</th><th>Period</th></tr></thead>
+        <tbody>
+          <tr><td><span class="ph">[Course title]</span></td><td><span class="ph">[Level]</span></td><td><span class="ph">[Lectures, tutorials, labs]</span></td><td><span class="ph">[Years]</span></td></tr>
+          <tr><td><span class="ph">[Course title]</span></td><td><span class="ph">[Level]</span></td><td><span class="ph">[Lectures, tutorials, labs]</span></td><td><span class="ph">[Years]</span></td></tr>
+        </tbody>
+      </table>
+
+      <h2>Supervision</h2>
+      <p><span class="ph">[Students and projects supervised]</span></p>
+
+      <h2>Practice exercises</h2>
+      <p>Short numerical problems that use the formulas behind this site. Each exercise is generated at random, and you can check your answer within 3 %.</p>
+      <div class="exo">
+        <div class="q" id="tx-q"></div>
+        <div class="ans">
+          <input type="text" id="tx-ans" inputmode="decimal" aria-label="Your answer" placeholder="Your answer">
+          <span id="tx-unit" class="small"></span>
+          <button class="btn primary" type="button" id="tx-check">Check answer</button>
+          <button class="btn" type="button" id="tx-show">Show solution</button>
+          <button class="btn" type="button" id="tx-new">New exercise</button>
+        </div>
+        <div class="fb" id="tx-fb" role="status"></div>
+        <div class="sol" id="tx-sol" hidden></div>
+      </div>
+
+      <h2>Resources</h2>
+      <p><span class="ph">[Lecture notes, slides, lab handouts]</span></p>
+    </section>
+  </main>
+</div>
+
+<script>
+(function(){
+'use strict';
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+
+/* ===================== helpers ===================== */
+var SUP={'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','-':'⁻'};
+function sup(n){return String(n).split('').map(function(c){return SUP[c]||c}).join('')}
+function sci(x,d){
+  if(d==null)d=2;
+  if(!isFinite(x))return '∞';
+  if(x===0)return '0';
+  var ex=Math.floor(Math.log10(Math.abs(x)));
+  if(ex>=-2&&ex<=4)return String(+x.toPrecision(d+1));
+  var m=x/Math.pow(10,ex);
+  return m.toFixed(d)+' × 10'+sup(ex);
+}
+function fmt(v){
+  if(v===0)return '0';
+  var a=Math.abs(v);
+  if(a>=1e5||a<1e-3)return sci(v,1);
+  return String(+v.toPrecision(4));
+}
+function css(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim()}
+function colr(c){return (c&&c.charAt(0)==='-')?css(c):c}
+function logspace(a,b,n){var o=[];for(var i=0;i<n;i++)o.push(a*Math.pow(b/a,i/(n-1)));return o}
+function range(a,b,s){var o=[];for(var v=a;v<=b+1e-9;v+=s)o.push(v);return o}
+function setText(id,t){var e=document.getElementById(id);if(e)e.textContent=t}
+function num(id){return parseFloat(String(document.getElementById(id).value).replace(',','.'))}
+function onInput(ids,fn){ids.forEach(function(id){var e=document.getElementById(id);if(!e)return;e.addEventListener('input',fn);e.addEventListener('change',fn)})}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+
+/* wavelength (nm) -> rgb, for the spectrum strips */
+function wl2rgb(w){
+  var r=0,g=0,b=0,f=1;
+  if(w>=380&&w<440){r=-(w-440)/60;b=1}
+  else if(w>=440&&w<490){g=(w-440)/50;b=1}
+  else if(w>=490&&w<510){g=1;b=-(w-510)/20}
+  else if(w>=510&&w<580){r=(w-510)/70;g=1}
+  else if(w>=580&&w<645){r=1;g=-(w-645)/65}
+  else if(w>=645&&w<=780){r=1}
+  if(w>=380&&w<420)f=0.3+0.7*(w-380)/40;
+  else if(w>700&&w<=780)f=0.3+0.7*(780-w)/80;
+  function c(v){return Math.round(255*Math.pow(Math.max(0,v*f),0.8))}
+  return [c(r),c(g),c(b)];
+}
+function specStops(lo,hi,n){
+  var s=[];
+  for(var i=0;i<n;i++){var t=i/(n-1),w=lo+t*(hi-lo),c=wl2rgb(w);s.push('rgb('+c[0]+','+c[1]+','+c[2]+') '+(t*100).toFixed(1)+'%')}
+  return s.join(',');
+}
+document.documentElement.style.setProperty('--spec-stops',specStops(405,745,18));
+
+/* ===================== sliders ===================== */
+$$('.ctl[data-id]').forEach(function(d){
+  var id=d.dataset.id;
+  d.innerHTML='<label for="'+id+'"><span>'+d.dataset.label+'</span><output id="'+id+'-o" for="'+id+'"></output></label>'+
+    '<input type="range" id="'+id+'" min="'+d.dataset.min+'" max="'+d.dataset.max+'" step="'+d.dataset.step+'" value="'+d.dataset.value+'">';
+  var inp=d.querySelector('input'),out=d.querySelector('output');
+  var dec=+(d.dataset.dec||0),unit=d.dataset.unit?'\u202f'+d.dataset.unit:'';
+  var f=d.dataset.fmt==='pow10'?function(v){return sci(Math.pow(10,v),2)}:function(v){return (+v).toFixed(dec)};
+  function upd(){out.textContent=f(inp.value)+unit}
+  inp.addEventListener('input',upd);upd();
+});
+function setSlider(id,v){var e=document.getElementById(id);e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}))}
+
+/* ===================== charts ===================== */
+var charts=[];
+function Chart(cv,specFn){
+  var c={cv:cv,spec:specFn,hover:null};
+  charts.push(c);
+  cv.addEventListener('pointermove',function(ev){var r=cv.getBoundingClientRect();c.hover=ev.clientX-r.left;draw(c)});
+  cv.addEventListener('pointerleave',function(){c.hover=null;draw(c)});
+  return c;
+}
+function niceTicks(min,max,n){
+  var span=max-min,step0=span/n,mag=Math.pow(10,Math.floor(Math.log10(step0))),nm=step0/mag;
+  var step=(nm<1.5?1:nm<3?2:nm<7?5:10)*mag,t=[];
+  for(var v=Math.ceil(min/step-1e-9)*step;v<=max+step*1e-6;v+=step)t.push(Number(v.toPrecision(12)));
+  return t;
+}
+function ticksFor(min,max,log,n){
+  if(log){
+    var a=Math.ceil(Math.log10(min)-1e-9),b=Math.floor(Math.log10(max)+1e-9),t=[];
+    for(var k=a;k<=b;k++)t.push(Math.pow(10,k));
+    if(t.length<2)t=[min,max];
+    return t;
+  }
+  return niceTicks(min,max,n);
+}
+function tickLabel(v,log){
+  if(log){var n=Math.round(Math.log10(v));return (n>=-2&&n<=3)?String(+v.toPrecision(3)):'10'+sup(n)}
+  return fmt(v);
+}
+function nearest(xs,x){
+  var bi=0,bd=Infinity;
+  for(var i=0;i<xs.length;i++){var d=Math.abs(xs[i]-x);if(d<bd){bd=d;bi=i}}
+  return bi;
+}
+var UIFONT="'Instrument Sans',system-ui,sans-serif";
+function draw(c){
+  var cv=c.cv,r=cv.getBoundingClientRect();
+  if(r.width<30||r.height<30)return;
+  var dpr=window.devicePixelRatio||1,W=r.width,H=r.height;
+  if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr)}
+  var ctx=cv.getContext&&cv.getContext('2d');
+  if(!ctx)return;
+  ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);
+  var S=c.spec();if(!S)return;
+  var ink=css('--ink'),muted=css('--muted'),line=css('--line'),surface=css('--surface');
+  var m={l:S.ylog?60:64,r:18,t:16,b:46},pw=W-m.l-m.r,ph=H-m.t-m.b;
+  var xmin=S.xmin,xmax=S.xmax,ymin=S.ymin,ymax=S.ymax;
+  if(ymin==null||ymax==null){
+    var lo=Infinity,hi=-Infinity;
+    S.series.forEach(function(s){s.x.forEach(function(xv,i){
+      if(xv<xmin||xv>xmax)return;var yv=s.y[i];
+      if(!isFinite(yv)||(S.ylog&&yv<=0))return;
+      if(yv<lo)lo=yv;if(yv>hi)hi=yv;
+    })});
+    if(!isFinite(lo)){lo=0;hi=1}
+    if(S.ylog){
+      if(ymin==null)ymin=Math.pow(10,Math.floor(Math.log10(lo)));
+      if(ymax==null)ymax=Math.pow(10,Math.ceil(Math.log10(hi)));
+      if(ymax<=ymin)ymax=ymin*10;
+    }else{
+      if(ymin==null)ymin=lo>=0?0:lo-(hi-lo)*0.05;
+      if(ymax==null)ymax=hi+(hi-ymin)*0.08;
+      if(ymax<=ymin)ymax=ymin+1;
+    }
+  }
+  var fx=S.xlog?Math.log10:function(v){return v},fy=S.ylog?Math.log10:function(v){return v};
+  function X(v){return m.l+(fx(v)-fx(xmin))/(fx(xmax)-fx(xmin))*pw}
+  function Y(v){return m.t+ph-(fy(v)-fy(ymin))/(fy(ymax)-fy(ymin))*ph}
+  ctx.font='12.5px '+UIFONT;ctx.lineWidth=1;
+  var yt=ticksFor(ymin,ymax,S.ylog,6),xt=ticksFor(xmin,xmax,S.xlog,7);
+  ctx.strokeStyle=line;ctx.fillStyle=muted;ctx.textAlign='right';ctx.textBaseline='middle';
+  yt.forEach(function(t){var y=Math.round(Y(t))+.5;ctx.beginPath();ctx.moveTo(m.l,y);ctx.lineTo(m.l+pw,y);ctx.stroke();ctx.fillText(tickLabel(t,S.ylog),m.l-8,y)});
+  ctx.textAlign='center';ctx.textBaseline='top';
+  xt.forEach(function(t){var x=Math.round(X(t))+.5;ctx.beginPath();ctx.moveTo(x,m.t);ctx.lineTo(x,m.t+ph);ctx.stroke();ctx.fillText(tickLabel(t,S.xlog),x,m.t+ph+7)});
+  ctx.strokeStyle=muted;ctx.beginPath();ctx.moveTo(m.l+.5,m.t);ctx.lineTo(m.l+.5,m.t+ph+.5);ctx.lineTo(m.l+pw,m.t+ph+.5);ctx.stroke();
+  ctx.fillStyle=ink;ctx.font='500 13px '+UIFONT;ctx.textAlign='center';ctx.textBaseline='bottom';
+  if(S.xlabel)ctx.fillText(S.xlabel,m.l+pw/2,H-6);
+  if(S.ylabel){ctx.save();ctx.translate(14,m.t+ph/2);ctx.rotate(-Math.PI/2);ctx.textBaseline='top';ctx.fillText(S.ylabel,0,-4);ctx.restore()}
+  ctx.save();ctx.beginPath();ctx.rect(m.l,m.t,pw,ph);ctx.clip();
+  (S.hlines||[]).forEach(function(h){ctx.strokeStyle=colr(h.color||'--muted');ctx.lineWidth=1.2;ctx.setLineDash(h.dash||[]);var y=Y(h.y);ctx.beginPath();ctx.moveTo(m.l,y);ctx.lineTo(m.l+pw,y);ctx.stroke();ctx.setLineDash([])});
+  (S.vlines||[]).forEach(function(v){ctx.strokeStyle=colr(v.color||'--muted');ctx.lineWidth=1.4;ctx.setLineDash([5,4]);var x=X(v.x);ctx.beginPath();ctx.moveTo(x,m.t);ctx.lineTo(x,m.t+ph);ctx.stroke();ctx.setLineDash([])});
+  S.series.forEach(function(s){
+    ctx.strokeStyle=colr(s.color);ctx.lineWidth=s.w||2.3;ctx.setLineDash(s.dash||[]);ctx.lineJoin='round';
+    ctx.beginPath();var pen=false;
+    for(var i=0;i<s.x.length;i++){
+      var yv=s.y[i];
+      if(!isFinite(yv)||(S.ylog&&yv<=0)){pen=false;continue}
+      var px=X(s.x[i]),py=Y(yv);
+      if(!pen){ctx.moveTo(px,py);pen=true}else ctx.lineTo(px,py);
+    }
+    ctx.stroke();ctx.setLineDash([]);
+  });
+  (S.points||[]).forEach(function(p){
+    if(p.x==null||p.y==null||!isFinite(p.y))return;
+    ctx.fillStyle=colr(p.color||'--ink');ctx.strokeStyle=surface;ctx.lineWidth=2;
+    ctx.beginPath();ctx.arc(X(p.x),Y(p.y),5.5,0,Math.PI*2);ctx.fill();ctx.stroke();
+  });
+  ctx.restore();
+  (S.vlines||[]).forEach(function(v){
+    if(!v.label)return;
+    ctx.fillStyle=colr(v.color||'--muted');ctx.font='600 12.5px '+UIFONT;ctx.textAlign='left';ctx.textBaseline='top';
+    var x=X(v.x)+6;if(x>m.l+pw-90)x=X(v.x)-6,ctx.textAlign='right';
+    ctx.fillText(v.label,x,m.t+5);
+  });
+  /* legend */
+  var labelled=S.series.filter(function(s){return s.label});
+  if(labelled.length){
+    ctx.font='500 13px '+UIFONT;
+    var lw=0;labelled.forEach(function(s){lw=Math.max(lw,ctx.measureText(s.label).width)});
+    var bx=m.l+pw-lw-52,by=m.t+8+((S.vlines&&S.vlines.length)?18:0);
+    ctx.fillStyle=surface;ctx.globalAlpha=.88;ctx.fillRect(bx-8,by-6,lw+60,labelled.length*21+8);ctx.globalAlpha=1;
+    labelled.forEach(function(s,i){
+      var y=by+i*21+8;
+      ctx.strokeStyle=colr(s.color);ctx.lineWidth=2.6;ctx.setLineDash(s.dash||[]);ctx.beginPath();ctx.moveTo(bx,y);ctx.lineTo(bx+26,y);ctx.stroke();ctx.setLineDash([]);
+      ctx.fillStyle=ink;ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillText(s.label,bx+34,y);
+    });
+  }
+  /* hover read-out */
+  if(c.hover!=null&&c.hover>=m.l&&c.hover<=m.l+pw){
+    var t=(c.hover-m.l)/pw;
+    var xv=S.xlog?Math.pow(10,Math.log10(xmin)+t*(Math.log10(xmax)-Math.log10(xmin))):xmin+t*(xmax-xmin);
+    ctx.strokeStyle=muted;ctx.lineWidth=1;ctx.setLineDash([3,3]);ctx.beginPath();ctx.moveTo(c.hover,m.t);ctx.lineTo(c.hover,m.t+ph);ctx.stroke();ctx.setLineDash([]);
+    var rows=[{t:(S.xname||'x')+' = '+(S.xfmt?S.xfmt(xv):fmt(xv)),c:ink}];
+    labelled.forEach(function(s){
+      var i=nearest(s.x,xv),yv=s.y[i];
+      if(!isFinite(yv)||(S.ylog&&yv<=0))return;
+      var yy=Y(Math.min(Math.max(yv,ymin),ymax));
+      ctx.fillStyle=colr(s.color);ctx.strokeStyle=surface;ctx.lineWidth=2;ctx.beginPath();ctx.arc(X(s.x[i]),yy,4,0,Math.PI*2);ctx.fill();ctx.stroke();
+      rows.push({t:s.label+': '+(S.yfmt?S.yfmt(yv):fmt(yv)),c:colr(s.color)});
+    });
+    ctx.font='500 12.5px '+UIFONT;
+    var tw=0;rows.forEach(function(q){tw=Math.max(tw,ctx.measureText(q.t).width)});
+    var bw=tw+18,bh=rows.length*19+10,bx2=c.hover+14;
+    if(bx2+bw>W-4)bx2=c.hover-14-bw;
+    var by2=m.t+ph*0.38;
+    ctx.fillStyle=surface;ctx.strokeStyle=line;ctx.lineWidth=1;ctx.fillRect(bx2,by2,bw,bh);ctx.strokeRect(bx2+.5,by2+.5,bw,bh);
+    ctx.textAlign='left';ctx.textBaseline='middle';
+    rows.forEach(function(q,i){ctx.fillStyle=q.c;ctx.fillText(q.t,bx2+9,by2+5+i*19+9.5)});
+  }
+}
+function redrawAll(){charts.forEach(draw);drawShape();drawAnim()}
+
+/* ===================== tabs ===================== */
+var TABS=['home','phonons','plasmons','synthesis','concentration','flocculation','teaching'];
+var current='home';
+function show(id,push){
+  if(TABS.indexOf(id)<0)id='home';
+  current=id;
+  TABS.forEach(function(t){
+    var p=document.getElementById(t),b=document.getElementById('tab-'+t);
+    p.hidden=(t!==id);
+    b.setAttribute('aria-selected',t===id?'true':'false');
+    b.tabIndex=(t===id)?0:-1;
+  });
+  if(push){try{history.replaceState(null,'','#'+id)}catch(e){}}
+  window.scrollTo(0,0);
+  var tb=document.getElementById('tab-'+id);
+  if(tb&&tb.scrollIntoView&&window.innerWidth<=860){try{tb.scrollIntoView({block:'nearest',inline:'center'})}catch(e){}}
+  requestAnimationFrame(function(){redrawAll();syncAnim()});
+}
+$$('.tab').forEach(function(b){b.addEventListener('click',function(){show(b.dataset.tab,true)})});
+$('#tabs').addEventListener('keydown',function(ev){
+  var k=ev.key,i=TABS.indexOf(current),n=null;
+  if(k==='ArrowDown'||k==='ArrowRight')n=(i+1)%TABS.length;
+  else if(k==='ArrowUp'||k==='ArrowLeft')n=(i-1+TABS.length)%TABS.length;
+  else if(k==='Home')n=0;else if(k==='End')n=TABS.length-1;
+  if(n!=null){ev.preventDefault();show(TABS[n],true);document.getElementById('tab-'+TABS[n]).focus()}
+});
+$$('[data-goto]').forEach(function(a){a.addEventListener('click',function(ev){ev.preventDefault();show(a.dataset.goto,true)})});
+window.addEventListener('hashchange',function(){var h=location.hash.replace('#','');if(h&&h!==current)show(h,false)});
+window.addEventListener('resize',redrawAll);
+if(window.ResizeObserver){new ResizeObserver(function(){redrawAll()}).observe(document.getElementById('main'))}
+if(window.matchMedia){try{window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',redrawAll)}catch(e){}}
+
+/* theme: auto -> light -> dark */
+var THEMES=['auto','light','dark'],themeIdx=0;
+function applyTheme(){
+  var t=THEMES[themeIdx],root=document.documentElement;
+  if(t==='auto')root.removeAttribute('data-theme');else root.setAttribute('data-theme',t);
+  setText('theme-btn','Theme: '+t);
+  try{localStorage.setItem('cv-theme',t)}catch(e){}
+  requestAnimationFrame(redrawAll);
+}
+try{var st=localStorage.getItem('cv-theme');if(st&&THEMES.indexOf(st)>=0)themeIdx=THEMES.indexOf(st)}catch(e){}
+$('#theme-btn').addEventListener('click',function(){themeIdx=(themeIdx+1)%THEMES.length;applyTheme()});
+
+/* ===================== PLASMONICS ENGINE ===================== */
+var EV_NM=1239.84198;
+var METALS={
+  Au:{name:'Gold',einf:9.84,wp:9.03,g:0.071,hvF:0.9215,color:'--gold'},
+  Ag:{name:'Silver',einf:3.7,wp:9.17,g:0.021,hvF:0.915,color:'--silver'}
+};
+function depolL(AR){
+  if(AR<1.0005)return 1/3;
+  var e2=1-1/(AR*AR),e=Math.sqrt(e2);
+  if(e<0.05)return (1-e2)*(1/3+e2/5+e2*e2/7);
+  return (1-e2)/e2*(Math.atanh(e)/e-1);
+}
+function plasmonSpectrum(P,lams){
+  var M=METALS[P.metal],a=P.b*P.AR,V=4/3*Math.PI*a*P.b*P.b,Req=Math.cbrt(a*P.b*P.b);
+  var g=M.g+(P.surf?M.hvF/Req:0),La=depolL(P.AR),Lb=(1-La)/2,em=P.nm*P.nm;
+  var out={L:{abs:[],sca:[],ext:[]},T:{abs:[],sca:[],ext:[]}};
+  for(var i=0;i<lams.length;i++){
+    var lam=lams[i],E=EV_NM/lam,den=E*E+g*g;
+    var er=M.einf-M.wp*M.wp/den,ei=M.wp*M.wp*g/(E*den),k=2*Math.PI*P.nm/lam;
+    [['L',La],['T',Lb]].forEach(function(p){
+      var L=p[1],dr=er-em,di=ei,dnr=em+L*dr,dni=L*di,d2=dnr*dnr+dni*dni;
+      var alr=V*(dr*dnr+di*dni)/d2,ali=V*(di*dnr-dr*dni)/d2;
+      var ab=k*ali,sc=Math.pow(k,4)*(alr*alr+ali*ali)/(6*Math.PI);
+      out[p[0]].abs.push(ab);out[p[0]].sca.push(sc);out[p[0]].ext.push(ab+sc);
+    });
+  }
+  out.V=V;out.Req=Req;return out;
+}
+function peakWl(lam,arr){
+  var bi=0;for(var i=1;i<arr.length;i++)if(arr[i]>arr[bi])bi=i;
+  if(bi<=1||bi>=arr.length-2)return null;
+  return lam[bi];
+}
+var PL_LAM=range(300,1400,2),HR_LAM=range(400,1100,2);
+function fmtNm(p){return p==null?'out of range':Math.round(p)+' nm'}
+
+/* ---------- hero chart ---------- */
+function heroState(){
+  var AR=num('hr-ar'),S=plasmonSpectrum({metal:'Au',b:12,AR:AR,nm:1.33,surf:true},HR_LAM);
+  return {AR:AR,S:S};
+}
+Chart($('#hr-chart'),function(){
+  var h=heroState();
+  return {xmin:400,xmax:1100,ymin:0,xlabel:'Wavelength (nm)',ylabel:'Extinction cross-section (nm²)',xname:'λ',xfmt:function(v){return Math.round(v)+' nm'},
+    series:[{x:HR_LAM,y:h.S.L.ext,color:'--rose',label:'Along the rod'},{x:HR_LAM,y:h.S.T.ext,color:'--teal',label:'Across the rod'}]};
+});
+function heroUpdate(){
+  var h=heroState(),pl=peakWl(HR_LAM,h.S.L.ext);
+  setText('hr-read',h.AR<1.05?'A sphere has one resonance, near '+fmtNm(pl)+'.':'Resonance along the rod: '+fmtNm(pl)+' (rod 24 nm wide, '+Math.round(24*h.AR)+' nm long).');
+  draw(charts[0]);
+}
+onInput(['hr-ar'],heroUpdate);
+
+/* ---------- plasmon tab ---------- */
+function plP(){return {metal:$('#pl-metal').value,b:num('pl-b'),AR:num('pl-ar'),nm:num('pl-n'),surf:$('#pl-surf').checked}}
+var plChart=Chart($('#pl-chart'),function(){
+  var P=plP(),q=$('#pl-q').value,S=plasmonSpectrum(P,PL_LAM),L=S.L[q],T=S.T[q];
+  var A=L.map(function(v,i){return (v+2*T[i])/3});
+  var series=[],pts=[];
+  if($('#pl-showL').checked){series.push({x:PL_LAM,y:L,color:'--rose',label:'Along the long axis'});var pL=peakWl(PL_LAM,L);if(pL)pts.push({x:pL,y:L[PL_LAM.indexOf(pL)],color:'--rose'})}
+  if($('#pl-showT').checked){series.push({x:PL_LAM,y:T,color:'--teal',label:'Across the long axis'});var pT=peakWl(PL_LAM,T);if(pT)pts.push({x:pT,y:T[PL_LAM.indexOf(pT)],color:'--teal'})}
+  if($('#pl-showA').checked){series.push({x:PL_LAM,y:A,color:'--ink',dash:[6,4],w:2,label:'Random orientation'})}
+  if(!series.length)series.push({x:PL_LAM,y:L.map(function(){return 0}),color:'--muted'});
+  var yl={ext:'Extinction',abs:'Absorption',sca:'Scattering'}[q];
+  return {xmin:300,xmax:1400,ymin:0,xlabel:'Wavelength (nm)',ylabel:yl+' cross-section (nm²)',xname:'λ',xfmt:function(v){return Math.round(v)+' nm'},series:series,points:pts};
+});
+function plUpdate(){
+  var P=plP(),q=$('#pl-q').value,S=plasmonSpectrum(P,PL_LAM);
+  setText('pl-pkL',fmtNm(peakWl(PL_LAM,S.L[q])));
+  setText('pl-pkT',fmtNm(peakWl(PL_LAM,S.T[q])));
+  setText('pl-req',S.Req.toFixed(1)+' nm');
+  setText('pl-vol',sci(S.V,2)+' nm³');
+  draw(plChart);drawShape();
+}
+onInput(['pl-metal','pl-b','pl-ar','pl-n','pl-q','pl-surf','pl-showL','pl-showT','pl-showA'],plUpdate);
+
+/* ---------- superellipsoid shape explorer ---------- */
+function se(a,b,n,N){
+  var p=[];
+  for(var i=0;i<N;i++){var t=2*Math.PI*i/N,c=Math.cos(t),s=Math.sin(t);
+    p.push([a*Math.sign(c)*Math.pow(Math.abs(c),2/n),b*Math.sign(s)*Math.pow(Math.abs(s),2/n)])}
+  return p;
+}
+function polyArea(p){var s=0;for(var i=0;i<p.length;i++){var q=p[(i+1)%p.length];s+=p[i][0]*q[1]-q[0]*p[i][1]}return Math.abs(s)/2}
+function superVolume(a,c,nxy,nz){
+  var M=60,dz=2*c/M,V=0;
+  for(var j=0;j<M;j++){
+    var z=-c+(j+.5)*dz,sz=Math.pow(Math.max(0,1-Math.pow(Math.abs(z/c),nz)),1/nz);
+    if(sz<=0)continue;V+=polyArea(se(a*sz,a*sz,nxy,120))*dz;
+  }
+  return V;
+}
+function shapeP(){
+  var linked=$('#sh-link').checked,nxy=num('sh-nxy'),nz=num('sh-nz');
+  return {a:num('sh-a'),c:num('sh-c'),nxy:nxy,nz:nz,t:num('sh-t'),lxy:linked?nxy:num('sh-lxy'),lz:linked?nz:num('sh-lz')};
+}
+function shapeUpdate(){
+  var linked=$('#sh-link').checked,p=shapeP();
+  $('#sh-lxy').disabled=linked;$('#sh-lz').disabled=linked;
+  if(linked){
+    document.getElementById('sh-lxy').value=p.nxy;document.getElementById('sh-lz').value=p.nz;
+    var o1=document.getElementById('sh-lxy-o'),o2=document.getElementById('sh-lz-o');
+    if(o1)o1.textContent=(+p.nxy).toFixed(1);if(o2)o2.textContent=(+p.nz).toFixed(1);
+  }
+  var V=superVolume(p.a,p.c,p.nxy,p.nz);
+  setText('sh-vol',sci(V,2)+' nm³');
+  setText('sh-req',Math.cbrt(3*V/(4*Math.PI)).toFixed(1)+' nm');
+  drawShape();
+}
+function drawShape(){
+  var cv=document.getElementById('sh-canvas');if(!cv)return;
+  var r=cv.getBoundingClientRect();if(r.width<30||r.height<30)return;
+  var dpr=window.devicePixelRatio||1,W=r.width,H=r.height;
+  if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr)}
+  var ctx=cv.getContext&&cv.getContext('2d');if(!ctx)return;
+  ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);
+  var p=shapeP(),metal=METALS[$('#pl-metal').value],mcol=css(metal.color),lcol=css('--rose'),ink=css('--ink'),muted=css('--muted'),line=css('--line');
+  var ext=Math.max(p.a+p.t,p.c+p.t),pw=W/2,scale=Math.min(pw/2-14,H/2-34)/ext;
+  function poly(cx,cy,pts){ctx.beginPath();pts.forEach(function(q,i){var x=cx+q[0]*scale,y=cy-q[1]*scale;if(i)ctx.lineTo(x,y);else ctx.moveTo(x,y)});ctx.closePath()}
+  var panels=[
+    {title:'Long-axis section',h:p.a,v:p.c,n:p.nz,lh:p.a+p.t,lv:p.c+p.t,ln:p.lz},
+    {title:'Cross-section',h:p.a,v:p.a,n:p.nxy,lh:p.a+p.t,lv:p.a+p.t,ln:p.lxy}
+  ];
+  panels.forEach(function(q,i){
+    var cx=pw*(i+.5),cy=H/2+10;
+    ctx.strokeStyle=line;ctx.lineWidth=1;ctx.setLineDash([3,4]);
+    ctx.beginPath();ctx.moveTo(cx-pw/2+10,cy);ctx.lineTo(cx+pw/2-10,cy);ctx.moveTo(cx,cy-H/2+30);ctx.lineTo(cx,cy+H/2-24);ctx.stroke();ctx.setLineDash([]);
+    if(p.t>0){poly(cx,cy,se(q.lh,q.lv,q.ln,220));ctx.fillStyle=lcol;ctx.globalAlpha=.3;ctx.fill();ctx.globalAlpha=1;ctx.strokeStyle=lcol;ctx.lineWidth=1.6;ctx.stroke()}
+    poly(cx,cy,se(q.h,q.v,q.n,220));ctx.fillStyle=mcol;ctx.fill();ctx.strokeStyle=ink;ctx.globalAlpha=.55;ctx.lineWidth=1.3;ctx.stroke();ctx.globalAlpha=1;
+    ctx.fillStyle=ink;ctx.font='600 13px '+UIFONT;ctx.textAlign='center';ctx.textBaseline='top';ctx.fillText(q.title,cx,10);
+    var bar=ext>=40?10:5;
+    var bx=cx-pw/2+16,by=H-18;
+    ctx.strokeStyle=ink;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(bx,by);ctx.lineTo(bx+bar*scale,by);ctx.stroke();
+    ctx.fillStyle=muted;ctx.font='500 12px '+UIFONT;ctx.textAlign='left';ctx.textBaseline='bottom';ctx.fillText(bar+' nm',bx,by-4);
+  });
+}
+onInput(['sh-a','sh-c','sh-nxy','sh-nz','sh-t','sh-link','sh-lxy','sh-lz'],shapeUpdate);
+var PRESETS={
+  sphere:{a:20,c:20,nxy:2,nz:2,t:3,link:true,lxy:2,lz:2},
+  sym:{a:25,c:25,nxy:6,nz:6,t:3,link:false,lxy:10,lz:10},
+  elong:{a:20,c:50,nxy:2,nz:12,t:3,link:true,lxy:2,lz:12}
+};
+$$('[data-preset]').forEach(function(b){b.addEventListener('click',function(){
+  var q=PRESETS[b.dataset.preset];
+  $('#sh-link').checked=q.link;
+  ['a','c','nxy','nz','t','lxy','lz'].forEach(function(k){setSlider('sh-'+k,q[k])});
+  shapeUpdate();
+})});
+
+/* ===================== PHONONS ===================== */
+var PH={
+  Au:{name:'Gold',cL:3240,cT:1200,color:'--gold'},
+  Ag:{name:'Silver',cL:3650,cT:1660,color:'--silver'},
+  Cu:{name:'Copper',cL:4760,cT:2325,color:'--rose'}
+};
+function xiBreathing(cL,cT){
+  var r2=Math.pow(cL/cT,2);
+  function g(x){return (4-r2*x*x)*Math.sin(x)-4*x*Math.cos(x)}
+  var x0=0.05,g0=g(x0),step=0.002;
+  for(var x=x0+step;x<30;x+=step){
+    var gx=g(x);
+    if(gx===0)return x;
+    if((gx>0)!==(g0>0)){
+      var a=x-step,b=x;
+      for(var k=0;k<70;k++){var mid=(a+b)/2;if((g(mid)>0)===(g(a)>0))a=mid;else b=mid}
+      return (a+b)/2;
+    }
+  }
+  return NaN;
+}
+function phMat(){
+  var k=$('#ph-mat').value;
+  if(k==='custom')return {name:'Custom',cL:num('ph-cL'),cT:num('ph-cT'),color:'--teal'};
+  return PH[k];
+}
+function phValid(m){return isFinite(m.cL)&&isFinite(m.cT)&&m.cT>0&&m.cL>m.cT*1.1547}
+function fmtFreq(f){return f>=1e12?(f/1e12).toPrecision(3)+' THz':(f/1e9).toPrecision(3)+' GHz'}
+function fmtPeriod(s){var ps=s*1e12;return ps>=1000?(ps/1000).toPrecision(3)+' ns':ps.toPrecision(3)+' ps'}
+var phChart=Chart($('#ph-chart'),function(){
+  var D=logspace(2,100,50),series=[];
+  Object.keys(PH).forEach(function(k){
+    var m=PH[k],xi=xiBreathing(m.cL,m.cT);
+    series.push({x:D,y:D.map(function(d){return xi*m.cL/(Math.PI*d*1e-9)/1e12}),color:m.color,label:m.name});
+  });
+  var cm=phMat(),pts=[];
+  if($('#ph-mat').value==='custom'&&phValid(cm)){
+    var xc=xiBreathing(cm.cL,cm.cT);
+    series.push({x:D,y:D.map(function(d){return xc*cm.cL/(Math.PI*d*1e-9)/1e12}),color:'--teal',label:'Custom'});
+  }
+  if(phValid(cm)){var xi2=xiBreathing(cm.cL,cm.cT),d0=num('ph-d');pts.push({x:d0,y:xi2*cm.cL/(Math.PI*d0*1e-9)/1e12,color:cm.color})}
+  return {xlog:true,ylog:true,xmin:2,xmax:100,xlabel:'Diameter (nm)',ylabel:'Frequency (THz)',xname:'D',xfmt:function(v){return v.toFixed(1)+' nm'},yfmt:function(v){return fmtFreq(v*1e12)},series:series,points:pts};
+});
+var phState={f:NaN,T:NaN,slow:NaN};
+function phUpdate(){
+  var m=phMat(),custom=$('#ph-mat').value==='custom';
+  $('#ph-custom').hidden=!custom;
+  var ok=phValid(m);
+  setText('ph-msg',ok?'':'The longitudinal velocity must exceed 1.155 × the transverse velocity.');
+  if(ok){
+    var xi=xiBreathing(m.cL,m.cT),D=num('ph-d')*1e-9,f=xi*m.cL/(Math.PI*D);
+    phState.f=f;phState.T=1/f;phState.slow=2*f;
+    setText('ph-f',fmtFreq(f));setText('ph-T',fmtPeriod(1/f));
+    setText('ph-wn',(f/2.99792458e10).toPrecision(3)+' cm⁻¹');setText('ph-xi',xi.toFixed(3));
+    setText('ph-slow','Slowed down by a factor '+sci(2/(1/f),2)+' so that one oscillation lasts 2 s. Amplitude greatly exaggerated.');
+  }else{
+    ['ph-f','ph-T','ph-wn','ph-xi'].forEach(function(i){setText(i,'–')});phState.f=NaN;
+  }
+  phInverse();draw(phChart);drawAnim();
+}
+function phInverse(){
+  var m=phMat(),T=num('ph-T2')*1e-12;
+  if(!phValid(m)||!(T>0)){setText('ph-D2','–');setText('ph-f2','–');return}
+  var xi=xiBreathing(m.cL,m.cT),D=xi*m.cL*T/Math.PI*1e9;
+  setText('ph-D2',D.toPrecision(3)+' nm');setText('ph-f2',fmtFreq(1/T));
+}
+onInput(['ph-mat','ph-d','ph-cL','ph-cT','ph-T2'],phUpdate);
+
+/* breathing animation */
+var reduceMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var animPlaying=!reduceMotion,animRaf=0,animT0=performance.now();
+function drawAnim(){
+  var cv=document.getElementById('ph-anim');if(!cv)return;
+  var r=cv.getBoundingClientRect();if(r.width<30||r.height<30)return;
+  var dpr=window.devicePixelRatio||1,W=r.width,H=r.height;
+  if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr)}
+  var ctx=cv.getContext&&cv.getContext('2d');if(!ctx)return;
+  ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);
+  var m=phMat(),col=css(m.color||'--gold'),ink=css('--ink'),muted=css('--muted');
+  var ph=((performance.now()-animT0)/2000)*2*Math.PI,R0=Math.min(W,H)*0.27,amp=R0*0.16;
+  var R=R0+(animPlaying?amp*Math.cos(ph):0),cx=W/2,cy=H/2;
+  ctx.strokeStyle=muted;ctx.lineWidth=1.2;ctx.setLineDash([4,4]);ctx.beginPath();ctx.arc(cx,cy,R0,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);
+  var g=ctx.createRadialGradient(cx-R*.3,cy-R*.35,R*.1,cx,cy,R);g.addColorStop(0,col);g.addColorStop(1,col);
+  ctx.fillStyle=g;ctx.globalAlpha=.92;ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
+  ctx.strokeStyle=ink;ctx.lineWidth=1.6;ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);ctx.stroke();
+  ctx.lineWidth=2;ctx.strokeStyle=ink;
+  var disp=animPlaying?Math.cos(ph)*amp*1.6:0;
+  for(var i=0;i<8;i++){
+    var a=i*Math.PI/4,r1=R0+14,r2=R0+14+disp+(disp>=0?10:-10);
+    ctx.beginPath();ctx.moveTo(cx+Math.cos(a)*r1,cy+Math.sin(a)*r1);ctx.lineTo(cx+Math.cos(a)*r2,cy+Math.sin(a)*r2);ctx.stroke();
+  }
+}
+function animLoop(){
+  if(current!=='phonons'||!animPlaying){animRaf=0;return}
+  drawAnim();animRaf=requestAnimationFrame(animLoop);
+}
+function syncAnim(){
+  if(current==='phonons'&&animPlaying&&!animRaf)animRaf=requestAnimationFrame(animLoop);
+  if(current!=='phonons'&&animRaf){cancelAnimationFrame(animRaf);animRaf=0}
+}
+function setPlayLabel(){setText('ph-play',animPlaying?'Pause':'Play')}
+$('#ph-play').addEventListener('click',function(){animPlaying=!animPlaying;setPlayLabel();if(animPlaying)animT0=performance.now();drawAnim();syncAnim()});
+setPlayLabel();
+
+/* ===================== SYNTHESIS ===================== */
+(function(){
+  var lo=350,hi=1000,rows=[
+    ['Silver nanospheres, 10–50 nm',390,430],
+    ['Silver nanocubes, 40–80 nm',430,490],
+    ['Gold nanospheres, 10–50 nm',515,535],
+    ['Gold nanorods, aspect ratio 2–5',640,900]
+  ];
+  var grad='linear-gradient(to right,'+(function(){
+    var s=[];
+    for(var w=lo;w<=hi;w+=10){
+      var t=(w-lo)/(hi-lo)*100,c=wl2rgb(w);
+      if(w<400||w>750){s.push('rgba(120,130,150,.35) '+t.toFixed(1)+'%')}else{s.push('rgb('+c[0]+','+c[1]+','+c[2]+') '+t.toFixed(1)+'%')}
+    }
+    return s.join(',');
+  })()+')';
+  var html='';
+  rows.forEach(function(r){
+    var l=(r[1]-lo)/(hi-lo)*100,w=(r[2]-r[1])/(hi-lo)*100;
+    html+='<div class="lspr-row"><span>'+r[0]+'<br><span class="small">'+r[1]+'–'+r[2]+' nm</span></span><div class="track" style="background:'+grad+'"><div class="rng" style="left:'+l.toFixed(2)+'%;width:'+w.toFixed(2)+'%"></div></div></div>';
+  });
+  html+='<div class="axis-lbl"><span></span><div><span>350 nm</span><span>500</span><span>650</span><span>800</span><span>1000 nm</span></div></div>';
+  document.getElementById('lspr-rows').innerHTML=html;
+})();
+function haissUpdate(){
+  var a=num('hs-a'),b=num('hs-b');
+  if(!(a>0)||!(b>0)){setText('hs-r','–');setText('hs-d','–');setText('hs-n','');return}
+  var ratio=a/b,d=Math.exp(3.00*ratio-2.20);
+  setText('hs-r',ratio.toFixed(2));setText('hs-d',d.toFixed(1)+' nm');
+  setText('hs-n',(d<5||d>80)?'Outside the 5–80 nm range of the correlation: treat as indicative only.':'');
+}
+onInput(['hs-a','hs-b'],haissUpdate);
+
+/* ===================== CONCENTRATION ===================== */
+var NA=6.02214076e23,kB=1.380649e-23,QE=1.602176634e-19,EPS0=8.8541878128e-12,EPSR=78.5,TEMP=298.15,ETA=0.89e-3;
+var ELEM={Au:{rho:19.32,M:196.967,name:'Gold'},Ag:{rho:10.49,M:107.868,name:'Silver'}};
+var lastNM=null,lastD=null;
+function caUpdate(){
+  var el=ELEM[$('#ca-metal').value],C=num('ca-c'),V=num('ca-v'),Vt=num('ca-vt'),Y=num('ca-y')/100,d=num('ca-d');
+  var ok=C>=0&&V>=0&&Vt>0&&Y>=0&&d>0;
+  setText('ca-msg',ok?(Vt<V?'The final volume is smaller than the precursor volume.':''):'Enter positive values.');
+  if(!ok){['ca-atoms','ca-nm','ca-pml','ca-mass'].forEach(function(i){setText(i,'–')});lastNM=null;return}
+  var nPrec=C*1e-3*V*1e-3,atoms=nPrec*NA*Y;
+  var vol=Math.PI/6*Math.pow(d*1e-7,3),mass=el.rho*vol,aPer=mass/el.M*NA;
+  var N=atoms/aPer,perML=N/Vt,nM=perML*1000/NA*1e9;
+  setText('ca-atoms',sci(aPer,3));setText('ca-nm',sci(nM,3)+' nM');setText('ca-pml',sci(perML,3)+' mL⁻¹');
+  setText('ca-mass',sci(nPrec*el.M*Y/Vt*1e6,3)+' mg/L');
+  lastNM=nM;lastD=d;
+}
+onInput(['ca-metal','ca-c','ca-v','ca-vt','ca-y','ca-d'],caUpdate);
+$('#ca-send').addEventListener('click',function(){
+  if(lastNM==null||!isFinite(lastNM)){setText('ca-msg','Enter valid values first.');return}
+  document.getElementById('fl-nm').value=Number(lastNM.toPrecision(4));
+  setSlider('fl-r',Math.min(100,Math.max(2,lastD/2)));
+  document.getElementById('fl-nm').dispatchEvent(new Event('input',{bubbles:true}));
+  show('flocculation',true);
+});
+function cbUpdate(){
+  var A=num('cb-A'),l=num('cb-l'),e=num('cb-e');
+  if(!(A>=0)||!(l>0)||!(e>0)){setText('cb-nm','–');setText('cb-pml','–');setText('cb-msg','Enter positive values.');return}
+  var c=A/(e*l);
+  setText('cb-nm',sci(c*1e9,3)+' nM');setText('cb-pml',sci(c*NA/1000,3)+' mL⁻¹');
+  setText('cb-msg',A>1.5?'Absorbance above about 1.5 is unreliable: dilute the sample.':'');
+}
+onInput(['cb-A','cb-l','cb-e'],cbUpdate);
+$('#cb-pre').addEventListener('change',function(){var v=$('#cb-pre').value;if(v){document.getElementById('cb-e').value=v;cbUpdate()}});
+$('#cb-e').addEventListener('input',function(){
+  var v=$('#cb-pre').value;if(v&&Number(v)!==num('cb-e'))$('#cb-pre').value='';
+});
+function ccUpdate(){
+  var c1=num('cc-c1'),c2=num('cc-c2'),V2=num('cc-v2');
+  if(!(c1>0)||!(c2>=0)||!(V2>0)){['cc-v1','cc-vs','cc-f'].forEach(function(i){setText(i,'–')});setText('cc-msg','Enter positive values.');return}
+  if(c2>c1){['cc-v1','cc-vs','cc-f'].forEach(function(i){setText(i,'–')});setText('cc-msg','The target must be below the stock concentration.');return}
+  var V1=c2*V2/c1;
+  setText('cc-v1',sci(V1*1000,3)+' µL');setText('cc-vs',sci((V2-V1)*1000,3)+' µL');setText('cc-f',c2>0?sci(c1/c2,3)+' ×':'–');
+  setText('cc-msg',(V1*1000<5&&V1>0)?'Under 5 µL is hard to pipette accurately: dilute in two steps.':'');
+}
+onInput(['cc-c1','cc-c2','cc-v2'],ccUpdate);
+
+/* ===================== FLOCCULATION ===================== */
+var SALTS={NaCl:{f:1,name:'NaCl'},CaCl2:{f:3,name:'CaCl₂'},MgSO4:{f:4,name:'MgSO₄'},AlCl3:{f:6,name:'AlCl₃'}};
+function kappaOf(I){return Math.sqrt(2*NA*QE*QE*I*1000/(EPSR*EPS0*kB*TEMP))}
+function flP(){
+  var salt=SALTS[$('#fl-salt').value];
+  return {R:num('fl-r')*1e-9,psi:num('fl-psi')*1e-3,A:num('fl-A')*1e-19,salt:salt,cmM:Math.pow(10,num('fl-c')),n0:num('fl-nm')};
+}
+function vInteract(h,p,kap){
+  var vr=2*Math.PI*EPSR*EPS0*p.R*p.psi*p.psi*Math.log1p(Math.exp(-kap*h))/(kB*TEMP);
+  var R2=p.R*p.R,d=2*p.R+h,dd=h*(4*p.R+h);
+  var va=-(p.A/6)*(2*R2/dd+2*R2/(d*d)+Math.log(dd/(d*d)))/(kB*TEMP);
+  return {vr:vr,va:va,v:vr+va};
+}
+function stabilityW(p,kap){
+  var hmin=0.3e-9,hmax=2000e-9,N=600;
+  function f(h){return Math.exp(Math.min(600,vInteract(h,p,kap).v))/Math.pow(2*p.R+h,2)}
+  var sum=0,hp=hmin,fp=f(hmin);
+  for(var i=1;i<=N;i++){var h=hmin*Math.pow(hmax/hmin,i/N),fi=f(h);sum+=0.5*(fi+fp)*(h-hp);hp=h;fp=fi}
+  return Math.max(1,2*p.R*sum+2*p.R/(2*p.R+hmax));   /* W below 1 is an artefact of neglecting hydrodynamics */
+}
+function barrierOf(p,kap){
+  var hs=logspace(0.3e-9,Math.max(40e-9,25/kap),300),best=-Infinity,pos=NaN;
+  hs.forEach(function(h){var v=vInteract(h,p,kap).v;if(v>best){best=v;pos=h}});
+  return {V:best,h:pos};
+}
+function fmtTime(s){
+  if(!isFinite(s))return '∞';
+  function p2(x){return String(+x.toPrecision(2))}
+  if(s<1e-3)return p2(s*1e6)+' µs';
+  if(s<1)return p2(s*1e3)+' ms';
+  if(s<60)return p2(s)+' s';
+  if(s<3600)return p2(s/60)+' min';
+  if(s<86400)return p2(s/3600)+' h';
+  if(s<3.15e7)return p2(s/86400)+' days';
+  var y=s/3.15e7;return y<1e4?p2(y)+' years':sci(y,1)+' years';
+}
+var FL_C=logspace(0.01,1000,50),flCache=null;
+function flCompute(){
+  var p=flP();
+  var I=p.salt.f*p.cmM*1e-3,kap=kappaOf(I);
+  var Wc=FL_C.map(function(c){var pp={R:p.R,psi:p.psi,A:p.A};return stabilityW(pp,kappaOf(p.salt.f*c*1e-3))});
+  var ccc=null;
+  if(Wc[0]<=10)ccc={below:true};
+  else for(var i=1;i<Wc.length;i++){
+    if(Wc[i]<=10){
+      var l0=Math.log10(Wc[i-1]),l1=Math.log10(Wc[i]),t=(l0-1)/(l0-l1);
+      ccc={c:Math.pow(10,Math.log10(FL_C[i-1])+t*(Math.log10(FL_C[i])-Math.log10(FL_C[i-1])))};break;
+    }
+  }
+  if(!ccc)ccc={above:true};
+  flCache={p:p,kap:kap,W:stabilityW(p,kap),bar:barrierOf(p,kap),Wc:Wc,ccc:ccc};
+  return flCache;
+}
+var flE=Chart($('#fl-e'),function(){
+  var c=flCache;if(!c)return null;
+  var hmax=Math.min(80,Math.max(15,8/c.kap*1e9)),hs=logspace(0.3,hmax,200);
+  var tot=[],rep=[],att=[];
+  hs.forEach(function(hn){var q=vInteract(hn*1e-9,c.p,c.kap);tot.push(q.v);rep.push(q.vr);att.push(q.va)});
+  var top=Math.max(15,Math.min(200,Math.max.apply(null,tot)*1.5));
+  return {xmin:0.3,xmax:hmax,ymin:-30,ymax:top,xlabel:'Gap between surfaces (nm)',ylabel:'Interaction energy (kBT)',xname:'gap',xfmt:function(v){return v.toFixed(2)+' nm'},yfmt:function(v){return v.toFixed(1)+' kBT'},
+    hlines:[{y:0,color:'--muted'}],
+    series:[{x:hs,y:tot,color:'--ink',label:'Total',w:2.8},{x:hs,y:rep,color:'--teal',label:'Electrostatic repulsion',dash:[6,4]},{x:hs,y:att,color:'--rose',label:'van der Waals attraction',dash:[6,4]}]};
+});
+var flW=Chart($('#fl-w'),function(){
+  var c=flCache;if(!c)return null;
+  var vl=[];
+  if(c.ccc.c)vl.push({x:c.ccc.c,color:'--gold',label:'CCC'});
+  return {xlog:true,ylog:true,xmin:0.01,xmax:1000,ymin:1,ymax:1e12,xlabel:'Salt concentration (mM)',ylabel:'Stability ratio W',xname:'salt',xfmt:function(v){return sci(v,2)+' mM'},yfmt:function(v){return sci(v,2)},
+    vlines:vl,series:[{x:FL_C,y:c.Wc.map(function(w){return Math.min(w,1e12)}),color:'--ink',label:'W'}],points:[{x:c.p.cmM,y:Math.min(Math.max(c.W,1),1e12),color:'--gold'}]};
+});
+function flUpdate(){
+  var c=flCompute(),p=c.p;
+  setText('fl-ld',(1/c.kap*1e9).toPrecision(3)+' nm');
+  setText('fl-bar',c.bar.V>0.1?c.bar.V.toFixed(1)+' kBT':'none');
+  setText('fl-W',sci(c.W,2));
+  var n0=p.n0*1e-9*NA*1000,tfast=3*ETA/(4*kB*TEMP*n0),half=tfast*c.W;
+  setText('fl-t',(p.n0>0)?fmtTime(half):'–');
+  var v=document.getElementById('fl-verdict');
+  if(c.W<2){v.textContent='Fast aggregation: no barrier is left, so particles stick at every collision.'}
+  else if(c.W<1e3){v.textContent='Slow aggregation: a small barrier slows sticking by a factor of '+sci(c.W,1)+'.'}
+  else{v.textContent='Stable: the barrier of '+c.bar.V.toFixed(0)+' kBT prevents aggregation on any practical timescale.'}
+  var s=p.salt.name;
+  setText('fl-ccc',c.ccc.c?'Estimated critical coagulation concentration for '+s+': about '+sci(c.ccc.c,2)+' mM (W = 10). The curve is capped at 10¹².':
+    c.ccc.below?'Already below W = 10 at the lowest concentration shown: the colloid is unstable under these parameters.':
+    'W stays above 10 up to 1 M: the colloid is stable against '+s+' for these parameters.');
+  draw(flE);draw(flW);
+}
+onInput(['fl-r','fl-psi','fl-A','fl-salt','fl-c','fl-nm'],flUpdate);
+
+/* ===================== TEACHING ===================== */
+var PROBLEMS=[
+  function(){
+    var A=+(0.2+Math.random()*0.9).toFixed(2),e=pick([[1.0e8,'10 nm'],[3.7e8,'15 nm'],[9.2e8,'20 nm'],[3.4e9,'30 nm']]),l=pick([1,0.5,0.2]);
+    var ans=A/(e[0]*l)*1e9;
+    return {text:'A suspension of '+e[1]+' gold nanospheres has an absorbance of '+A+' at its plasmon peak, measured in a '+l+' cm cuvette. The extinction coefficient is ε = '+sci(e[0],2)+' M⁻¹ cm⁻¹. What is the particle concentration?',unit:'nM',ans:ans,
+      sol:'Beer–Lambert: c = A / (ε l) = '+A+' / ('+sci(e[0],2)+' × '+l+') = '+sci(ans/1e9,3)+' M = '+sci(ans,3)+' nM.'};
+  },
+  function(){
+    var c1=pick([5,10,20,50]),c2=pick([0.5,1,2]),V2=pick([1,2,5,10]),ans=c2*V2/c1*1000;
+    return {text:'You have a stock at '+c1+' nM and need '+V2+' mL at '+c2+' nM. How much stock do you pipette?',unit:'µL',ans:ans,
+      sol:'C₁V₁ = C₂V₂, so V₁ = C₂V₂ / C₁ = '+c2+' × '+V2+' / '+c1+' = '+sci(ans/1000,3)+' mL = '+sci(ans,3)+' µL. Add solvent up to '+V2+' mL.'};
+  },
+  function(){
+    var c=pick([1,5,10,50,100]),I=c*1e-3,ans=1/kappaOf(I)*1e9;
+    return {text:'What is the Debye length in a '+c+' mM NaCl solution at 25 °C? (relative permittivity 78.5)',unit:'nm',ans:ans,
+      sol:'κ² = 2 N_A e² I / (ε_r ε₀ k_B T), with I = '+c+' mM. This gives a Debye length 1/κ = '+ans.toPrecision(3)+' nm, in practice about 0.304 nm / √(I in mol/L).'};
+  },
+  function(){
+    var D=pick([8,10,15,20,30]),xi=xiBreathing(3240,1200),ans=Math.PI*D*1e-9/(xi*3240)*1e12;
+    return {text:'A gold sphere of diameter '+D+' nm has c_L = 3240 m/s and c_T = 1200 m/s. The first root of the Lamb equation is ξ = '+xi.toFixed(3)+'. What is the period of its breathing mode?',unit:'ps',ans:ans,
+      sol:'T = 1/f = 2πR / (ξ c_L) = π D / (ξ c_L) = π × '+D+' nm / ('+xi.toFixed(3)+' × 3240 m/s) = '+ans.toPrecision(3)+' ps.'};
+  }
+];
+var curProb=null;
+function newProblem(){
+  curProb=pick(PROBLEMS)();
+  setText('tx-q',curProb.text);setText('tx-unit',curProb.unit);
+  document.getElementById('tx-ans').value='';setText('tx-fb','');
+  var s=document.getElementById('tx-sol');s.hidden=true;s.textContent='';
+}
+$('#tx-new').addEventListener('click',newProblem);
+$('#tx-check').addEventListener('click',function(){
+  var v=parseFloat(String(document.getElementById('tx-ans').value).replace(',','.')),fb=document.getElementById('tx-fb');
+  if(!isFinite(v)){fb.textContent='Enter a number first.';fb.style.color=css('--muted');return}
+  var err=Math.abs(v-curProb.ans)/curProb.ans;
+  if(err<=0.03){fb.textContent='Correct.';fb.style.color=css('--teal')}
+  else{fb.textContent='Not quite: your answer is '+(err*100).toFixed(0)+' % away. Check the units and try again.';fb.style.color=css('--rose')}
+});
+$('#tx-show').addEventListener('click',function(){var s=document.getElementById('tx-sol');s.hidden=false;s.textContent=curProb.sol});
+
+/* ===================== init ===================== */
+applyTheme();
+heroUpdate();plUpdate();shapeUpdate();phUpdate();haissUpdate();caUpdate();cbUpdate();ccUpdate();flUpdate();newProblem();
+var h0=location.hash.replace('#','');
+show(TABS.indexOf(h0)>=0?h0:'home',false);
+if(document.fonts&&document.fonts.ready){document.fonts.ready.then(redrawAll)}
+})();
+</script>
+</body>
+</html>
